@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from "react";
+import { connect } from 'react-redux';
 
+import { onAddTask, onGetTask } from './reducer'
 import "./style.css";
-import FirebaseService from "../../services/firebase";
 
-export default function Todo() {
-    const [tasks, setTasks] = useState([]);
+function Todo(props) {
     const [title, setTitle] = useState("");
 
-    useEffect(() => {
-        FirebaseService.getDataList("tasks", data => setTasks(data));
-    }, []);
+    useEffect(() => props.onGetTask(), []);
+
+    useEffect(() => {}, [props.todo.tasks]);
 
     const handleSubmit = e => {
         e.preventDefault();
-        FirebaseService.addTask(title);
-        setTitle("");
+        props.onAddTask(title);
     };
 
     return (
@@ -40,7 +39,7 @@ export default function Todo() {
                     </tr>
                 </thead>
                 <tbody>
-                    {tasks.map(task => (
+                    {props.todo.tasks.map(task => (
                         <tr key={task.id}>
                             <td>{task.id}</td>
                             <td>{task.title}</td>
@@ -51,3 +50,5 @@ export default function Todo() {
         </>
     );
 }
+
+export default connect(state => state, { onAddTask, onGetTask })(Todo)
