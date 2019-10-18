@@ -6,10 +6,10 @@ const INITIAL_STATE = {
     tasks: []
 };
 
-export const onAddTask = title => async dispatch =>
+export const onAddTask = title => async () =>
     await FirebaseService.addTask(title)
 
-export const onGetTask = () => async dispatch =>
+export const onGetTask = () => dispatch =>
     FirebaseService.getDataList("tasks", data => dispatch({
         type: GET_LIST,
         payload: data

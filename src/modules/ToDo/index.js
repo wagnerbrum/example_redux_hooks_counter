@@ -7,9 +7,12 @@ import "./style.css";
 function Todo(props) {
     const [title, setTitle] = useState("");
     
+    useEffect(() => {
+        props.onGetTask()
     // eslint-disable-next-line 
-    useEffect(() => async () => await props.onGetTask(), []);
-
+    }, []);
+    
+    // eslint-disable-next-line 
     useEffect(() => {}, [props.todo.tasks]);
 
     const handleSubmit = e => {
